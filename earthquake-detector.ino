@@ -1,13 +1,13 @@
+#include <Wire.h>
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
-#include <Wire.h>
 
-
-int buzzerPin = 9;
-int led = 2;
-int pushi = 6;
+int buzzerPin = D1;  // NodeMCU pin for the buzzer
+int led = D2;        // NodeMCU pin for the LED
+int pushi = D5;      // NodeMCU pin for the push button
 
 Adafruit_MPU6050 mpu;
+
 
 #define NOTE_B0 31
 #define NOTE_C1 33
@@ -140,11 +140,9 @@ void setup(void) {
   Serial.begin(115200);
   Serial3.begin(9600);
 
-   // use Serial3 on TX3 and RX3 pins
   pinMode(buzzerPin, OUTPUT);
   pinMode(led, OUTPUT);
   pinMode(pushi, INPUT_PULLUP);
-
 
   if (!mpu.begin()) {
     Serial.println("Failed to find MPU6050 chip");
@@ -155,6 +153,7 @@ void setup(void) {
   Serial.println("MPU6050 Found!");
 
   mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+
   Serial.print("Accelerometer range set to: ");
   switch (mpu.getAccelerometerRange()) {
   case MPU6050_RANGE_2_G:
